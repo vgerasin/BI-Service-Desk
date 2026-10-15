@@ -7,6 +7,8 @@ business users, work-time accounting, report registry with lineage, contractor a
 
 [English summary at the bottom](#english-summary)
 
+Подробнее: [описание проекта и архитектура](docs/overview.md).
+
 ## Скриншоты
 
 Все скриншоты сняты на демонстрационных данных (вымышленные компании и сотрудники).
