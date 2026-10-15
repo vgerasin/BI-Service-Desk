@@ -31,6 +31,7 @@ services:
       ADMIN_EMAIL: ${ADMIN_EMAIL:-}
       ADMIN_PASSWORD: ${ADMIN_PASSWORD:-}
       JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-24h}
+      SEED_SECRET: ${SEED_SECRET:-}
     volumes:
       - uploads_data:/app/uploads
     ports:

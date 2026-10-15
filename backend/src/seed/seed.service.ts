@@ -273,6 +273,7 @@ export class SeedService {
       type: RequestType.IMPROVEMENT, name: 'Добавить фильтр по грейду в HR-дашборд', customerId: cust4.id,
       priority: Priority.MEDIUM, description: 'Не указано, какой именно грейд — линейка должностей или зарплатная вилка',
     }, admin2.id);
+    await this.requestsSvc.changeStatus(r9.id, RequestStatus.IN_PROGRESS, admin2.id);
     await this.requestsSvc.changeStatus(r9.id, RequestStatus.WAITING_CUSTOMER, admin2.id, 'Запросили уточнение у заказчика: какая именно классификация грейдов имеется в виду');
 
     await this.requestsSvc.create({
@@ -315,13 +316,14 @@ export class SeedService {
     }, portal1Info.portalUserId!);
 
     // ── 8. Опросы удовлетворённости — заполняем часть из них ────────────
-    for (const [reqId, scores] of [
-      [r1.id, { quality: 4, speed: 3, communication: 5, compliance: 5, overall: 4, comment: 'Хорошо получилось, но пришлось повозиться с доработкой' }],
-      [r2.id, { quality: 5, speed: 5, communication: 5, compliance: 5, overall: 5, comment: 'Починили очень быстро, спасибо!' }],
-      [r7.id, { quality: 4, speed: 4, communication: 4, compliance: 4, overall: 4 }],
+    const yes = (n: number) => ['q1', 'q2', 'q3', 'q4', 'q5'].map((key, i) => ({ key, answer: i < n ? 'yes' : 'no', text: '' }));
+    for (const [reqId, answers, comment] of [
+      [r1.id, yes(4), 'Хорошо получилось, но пришлось повозиться с доработкой'],
+      [r2.id, yes(5), 'Починили очень быстро, спасибо!'],
+      [r7.id, yes(4), ''],
     ] as const) {
       const rating = await this.ratingsSvc.getForRequest(reqId as number);
-      if (rating) await this.ratingsSvc.submitSurvey(rating.token, scores as any);
+      if (rating) await this.ratingsSvc.submitSurvey(rating.token, { answers, comment } as any);
     }
     // r4 и r13 намеренно остаются с неотправленным опросом — реалистичная картина (не все отвечают)
 
