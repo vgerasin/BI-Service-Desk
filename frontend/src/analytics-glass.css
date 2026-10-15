@@ -1,0 +1,145 @@
+/* Apple-glass-inspired card treatment for the Analytics section — mirrors the styling
+   applied to the executive Dashboard (rounded corners, soft layered shadow, frosted
+   translucent panels). Scoped to .analytics-glass so it never leaks onto other pages.
+
+   Cards that already set an inline background (the colour-tinted KPI tiles — status
+   counters, priority breakdowns, etc.) are deliberately excluded from the translucency/
+   blur rule below, so their semantic tint colours stay solid and legible. They still get
+   the shared radius + shadow treatment for visual consistency. */
+
+.analytics-glass .ant-card {
+  border-radius: 20px;
+  box-shadow: 0 1px 1px rgba(16, 24, 40, 0.02), 0 12px 28px -14px rgba(16, 24, 40, 0.16);
+}
+
+.analytics-glass .ant-card:not([style*="background"]) {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+.analytics-glass .ant-card-head {
+  border-bottom: none;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 16px 18px 4px;
+}
+
+.analytics-glass .ant-card-head-title {
+  padding: 0;
+}
+
+.analytics-glass .ant-card-body {
+  padding: 14px 18px 18px;
+}
+
+/* Tabs bar as a frosted segmented control — same black-active-pill language as the
+   top header nav, instead of antd's default blue-underline tab style. Deeper blur, an
+   inner highlight, and a lifted active pill push this closer to an actual glass surface
+   than a flat white bar with rounded corners. */
+.analytics-glass .ant-tabs-nav {
+  margin-bottom: 24px;
+}
+
+.analytics-glass .ant-tabs-nav::before {
+  border-bottom: none;
+}
+
+.analytics-glass .ant-tabs-ink-bar {
+  display: none;
+}
+
+.analytics-glass .ant-tabs-nav-list {
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(24px) saturate(200%);
+  -webkit-backdrop-filter: blur(24px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 16px;
+  padding: 5px;
+  gap: 3px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    0 1px 2px rgba(16, 24, 40, 0.04),
+    0 12px 28px -12px rgba(16, 24, 40, 0.2);
+}
+
+.analytics-glass .ant-tabs-tab {
+  margin: 0 !important;
+  padding: 9px 18px !important;
+  border-radius: 12px;
+  transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.analytics-glass .ant-tabs-tab:not(.ant-tabs-tab-active):hover {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.analytics-glass .ant-tabs-tab:not(.ant-tabs-tab-active):hover .ant-tabs-tab-btn {
+  color: #1a1a1a !important;
+}
+
+.analytics-glass .ant-tabs-tab-active {
+  background: linear-gradient(180deg, #26262a 0%, #18181b 100%);
+  box-shadow: 0 6px 14px -4px rgba(16, 24, 40, 0.4), 0 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+.analytics-glass .ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: #fff !important;
+  font-weight: 600;
+}
+
+.analytics-glass .ant-tabs-tab .ant-tabs-tab-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Extended to cover the rest of the admin section (reference/directory pages, Kanban, Time
+   entries) with the same shape language: rounded data tables and a glossy primary button,
+   matching the Apple-blue (#007AFF) accent introduced on Requests/Dashboard. */
+.analytics-glass .ant-table-wrapper .ant-table {
+  border-radius: 20px;
+  box-shadow: 0 1px 1px rgba(16, 24, 40, 0.02), 0 12px 28px -14px rgba(16, 24, 40, 0.16);
+}
+.analytics-glass .ant-table-wrapper .ant-table-container {
+  border-radius: 20px;
+}
+.analytics-glass .ant-table-thead > tr > th {
+  background: rgba(120, 120, 128, 0.05);
+  font-weight: 600;
+  color: rgba(60, 60, 67, 0.6);
+}
+
+.analytics-glass .ant-btn-primary {
+  background: linear-gradient(180deg, #3AA0FF 0%, #007AFF 55%, #0064D6 100%);
+  border-color: transparent;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12), 0 6px 14px rgba(0, 122, 255, 0.28);
+}
+.analytics-glass .ant-btn-primary:hover,
+.analytics-glass .ant-btn-primary:focus {
+  background: linear-gradient(180deg, #55AEFF 0%, #1E8CFF 55%, #0064D6 100%);
+}
+
+/* Closed requests (done/rejected/cancelled) recede instead of competing with active work for
+   attention — same rule as requests-glass.css, reused here for every other list that shows
+   requests (customer portal, etc.) so a "Выполнена" row is muted everywhere, not just on the
+   admin/executor Requests page. */
+.analytics-glass .req-row-closed td {
+  color: rgba(60, 60, 67, 0.55);
+}
+.analytics-glass .req-row-closed .req-name-closed {
+  color: rgba(60, 60, 67, 0.65);
+  text-decoration: line-through;
+  text-decoration-color: rgba(60, 60, 67, 0.3);
+  text-decoration-thickness: 1.5px;
+}
+.analytics-glass .req-row-closed .ant-tag {
+  filter: grayscale(1) opacity(0.55);
+}
+
+/* Eligible requests still waiting on a customer rating — muted but not struck through (unlike
+   req-row-closed above): the request itself is done, only the survey response is missing. */
+.analytics-glass .rating-row-unrated td {
+  color: rgba(60, 60, 67, 0.55);
+}

@@ -1,0 +1,29 @@
+/* Belt-and-braces against horizontal overflow: this is a single-page app, so the shell around
+   <Outlet/> never remounts between route changes — if any one page ever pushes body wider than
+   the viewport (even by a few px) and the user's trackpad/scroll gesture nudges it sideways,
+   that horizontal scroll position sticks on every subsequent page, since nothing resets it on
+   navigation. Clamping overflow-x here means an accidental sideways scroll can't happen at all,
+   regardless of which page (or future page) is the culprit. */
+html, body, #root {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+/* Hover micro-interaction for every antd Card app-wide — a small lift + softer shadow,
+   so cards read as tactile/interactive without a per-component change everywhere. */
+.ant-card {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.ant-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 28px -14px rgba(16, 24, 40, 0.2), 0 4px 10px -4px rgba(16, 24, 40, 0.08);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ant-card {
+    transition: none;
+  }
+  .ant-card:hover {
+    transform: none;
+  }
+}

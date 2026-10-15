@@ -1,0 +1,66 @@
+/* TipTap editor placeholder */
+.tiptap p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: #bfbfbf;
+  pointer-events: none;
+  height: 0;
+}
+
+/* Shared styles for editor content and read-only rich content display */
+.ProseMirror,
+.rich-content {
+  outline: none;
+  line-height: 1.6;
+}
+
+.ProseMirror img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+  display: block;
+  margin: 6px 0;
+}
+
+/* Read-only display (description, comments, activity log): keep screenshots compact so a
+   few of them don't dominate the card — click still opens the full-size lightbox. */
+.rich-content img {
+  max-width: 100%;
+  max-height: 220px;
+  width: auto;
+  height: auto;
+  border-radius: 6px;
+  display: block;
+  margin: 6px 0;
+  cursor: zoom-in;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.rich-content img:hover {
+  transform: scale(1.04);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+}
+
+.ProseMirror ul,
+.ProseMirror ol,
+.rich-content ul,
+.rich-content ol {
+  padding-left: 20px;
+  margin: 6px 0;
+}
+
+.ProseMirror p,
+.rich-content p {
+  margin: 4px 0;
+}
+
+.ProseMirror a,
+.rich-content a {
+  color: #1677ff;
+  text-decoration: underline;
+}
+
+.ProseMirror strong,
+.rich-content strong {
+  font-weight: 600;
+}

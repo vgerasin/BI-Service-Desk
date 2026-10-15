@@ -1,0 +1,76 @@
+/* Liquid-glass treatment for the request detail page's internal/admin view — same shape
+   language as requests-glass.css (rounded cards, soft shadow, Apple blue #007AFF), extended
+   with a frosted pill tab bar. Scoped to .request-detail-glass so it never leaks onto the
+   customer-facing portal view rendered by the same component, or onto other pages.
+
+   Cards that already set an inline background (WAITING_CUSTOMER / DONE banners) are excluded
+   from the translucency rule so their semantic tint stays solid and legible — same convention
+   as analytics-glass.css. */
+
+.request-detail-glass .ant-card {
+  border-radius: 20px;
+  box-shadow: 0 1px 1px rgba(16, 24, 40, 0.02), 0 12px 28px -14px rgba(16, 24, 40, 0.16);
+}
+
+.request-detail-glass .ant-card:not([style*="background"]) {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+.request-detail-glass .ant-card-head {
+  border-bottom: none;
+  font-weight: 600;
+}
+
+/* Tab bar as a frosted pill control, active tab in the same gradient as the primary button
+   below — replaces antd's flat underline tabs. */
+.request-detail-glass .ant-tabs-nav::before {
+  border-bottom: none;
+}
+.request-detail-glass .ant-tabs-ink-bar {
+  display: none;
+}
+.request-detail-glass .ant-tabs-nav-list {
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(24px) saturate(200%);
+  -webkit-backdrop-filter: blur(24px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 16px;
+  padding: 5px;
+  gap: 3px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    0 1px 2px rgba(16, 24, 40, 0.04),
+    0 12px 28px -12px rgba(16, 24, 40, 0.2);
+}
+.request-detail-glass .ant-tabs-tab {
+  margin: 0 !important;
+  padding: 9px 18px !important;
+  border-radius: 12px;
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+.request-detail-glass .ant-tabs-tab:not(.ant-tabs-tab-active):hover {
+  background: rgba(255, 255, 255, 0.6);
+}
+.request-detail-glass .ant-tabs-tab-active {
+  background: linear-gradient(180deg, #3AA0FF 0%, #007AFF 55%, #0064D6 100%);
+  box-shadow: 0 6px 14px -4px rgba(0, 122, 255, 0.4), 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+.request-detail-glass .ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: #fff !important;
+  font-weight: 600;
+}
+
+/* Primary action (status transitions to "Выполнена", "Принять", etc.) gets the glossy pill
+   from the Requests list — same accent, same page family. */
+.request-detail-glass .ant-btn-primary {
+  background: linear-gradient(180deg, #3AA0FF 0%, #007AFF 55%, #0064D6 100%);
+  border-color: transparent;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12), 0 6px 14px rgba(0, 122, 255, 0.28);
+}
+.request-detail-glass .ant-btn-primary:hover,
+.request-detail-glass .ant-btn-primary:focus {
+  background: linear-gradient(180deg, #55AEFF 0%, #1E8CFF 55%, #0064D6 100%);
+}

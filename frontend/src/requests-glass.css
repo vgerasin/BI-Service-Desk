@@ -1,0 +1,142 @@
+/* Liquid-glass treatment for the Requests list — see chat: rounded cards, soft shadow, a
+   legend row explaining the per-row urgency dot, and muted/struck-through closed rows so they
+   recede while scanning. Scoped to .requests-glass so it never leaks onto other pages, which
+   still use the app's navy (#1F4E79) accent — this page deliberately uses Apple blue (#007AFF)
+   instead, per the approved mockup. */
+
+.requests-glass .req-toolbar {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 20px;
+  box-shadow: 0 1px 1px rgba(16, 24, 40, 0.02), 0 12px 28px -14px rgba(16, 24, 40, 0.16);
+  padding: 16px 20px;
+  margin-bottom: 16px;
+}
+
+.requests-glass .req-toolbar-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.requests-glass .req-legend-row {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px 22px;
+}
+
+/* Doubles as a multi-select filter — clickable, so it needs a hit target and a visible
+   pressed/active state, not just the static legend look it started as. */
+.requests-glass .req-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: rgba(60, 60, 67, 0.7);
+  white-space: nowrap;
+  cursor: pointer;
+  padding: 3px 9px 3px 7px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.requests-glass .req-legend-item:hover {
+  background: rgba(60, 60, 67, 0.06);
+}
+
+.requests-glass .req-legend-item-active {
+  color: rgba(0, 0, 0, 0.88);
+  font-weight: 600;
+}
+
+.requests-glass .req-legend-clear {
+  font-size: 12px;
+  color: #007AFF;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.requests-glass .req-legend-clear:hover {
+  text-decoration: underline;
+}
+
+.requests-glass .req-dot {
+  display: inline-flex;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex: none;
+}
+
+.requests-glass .req-legend-item .req-dot { margin-right: 1px; }
+
+.requests-glass .req-dot-blue { background: #007AFF; box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.14); }
+.requests-glass .req-dot-orange { background: #FF9F0A; box-shadow: 0 0 0 4px rgba(255, 159, 10, 0.16); }
+.requests-glass .req-dot-red { background: #FF3B30; box-shadow: 0 0 0 4px rgba(255, 59, 48, 0.14); }
+.requests-glass .req-dot-grey { background: rgba(60, 60, 67, 0.38); box-shadow: 0 0 0 4px rgba(60, 60, 67, 0.08); }
+
+/* Row dots inside table cells sit tighter to the text than the legend's — no halo, just a
+   plain mark, so a dense column of them doesn't turn into a strip of glowing rings. */
+.requests-glass .ant-table-tbody .req-dot { box-shadow: none; }
+
+/* Primary action gets the glossy pill treatment; the plain icon button (export) gets a quiet
+   frosted-ghost look instead of antd's flat white default, so it reads as part of the same
+   surface as the toolbar card. */
+.requests-glass .req-toolbar .ant-btn-primary {
+  background: linear-gradient(180deg, #3AA0FF 0%, #007AFF 55%, #0064D6 100%);
+  border-color: transparent;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12), 0 6px 14px rgba(0, 122, 255, 0.28);
+}
+.requests-glass .req-toolbar .ant-btn-primary:hover,
+.requests-glass .req-toolbar .ant-btn-primary:focus {
+  background: linear-gradient(180deg, #55AEFF 0%, #1E8CFF 55%, #0064D6 100%);
+}
+.requests-glass .req-toolbar .ant-btn-default {
+  background: rgba(120, 120, 128, 0.08);
+  border-color: rgba(60, 60, 67, 0.14);
+}
+
+/* Table card: same radius/shadow language as the toolbar, but solid (not frosted) — this is
+   dense working data, not a decorative surface, so it stays fully opaque for legibility. */
+.requests-glass .ant-table-wrapper .ant-table {
+  border-radius: 20px;
+  box-shadow: 0 1px 1px rgba(16, 24, 40, 0.02), 0 12px 28px -14px rgba(16, 24, 40, 0.16);
+}
+.requests-glass .ant-table-wrapper .ant-table-container {
+  border-radius: 20px;
+}
+.requests-glass .ant-table-thead > tr > th {
+  background: rgba(120, 120, 128, 0.05);
+  font-size: 11.5px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: rgba(60, 60, 67, 0.6);
+  font-weight: 600;
+}
+
+/* Closed requests (done/rejected/cancelled) recede instead of competing with active work for
+   attention — muted text plus a struck-through name, without hiding the row entirely (the
+   status filter still does that job when someone actually wants to). */
+.requests-glass .req-row-closed td {
+  color: rgba(60, 60, 67, 0.55);
+}
+.requests-glass .req-row-closed .req-name-closed {
+  color: rgba(60, 60, 67, 0.65);
+  text-decoration: line-through;
+  text-decoration-color: rgba(60, 60, 67, 0.3);
+  text-decoration-thickness: 1.5px;
+}
+/* Muting the cell text alone left the Статус/Приоритет badges at full saturation — a bright
+   green "Выполнена" pill still jumped out of an otherwise grey row. Desaturating the badges
+   themselves is what actually makes a closed row recede. */
+.requests-glass .req-row-closed .ant-tag {
+  filter: grayscale(1) opacity(0.55);
+}

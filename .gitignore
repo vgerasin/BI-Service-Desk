@@ -1,0 +1,26 @@
+# dependencies / build output
+node_modules/
+dist/
+coverage/
+*.tsbuildinfo
+
+# secrets and local config
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# runtime data
+uploads/
+backend/uploads/
+backend/public/
+*.log
+
+# local tooling / private leftovers (never publish)
+.claude/
+_private/
+_backup-*.tgz
+.DS_Store
+.idea/
+.vscode/
